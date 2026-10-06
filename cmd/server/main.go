@@ -88,7 +88,7 @@ func main() {
 
 	addr := ":" + cfg.AppPort
 	log.Printf("Server listening on http://localhost%s", addr)
-	log.Printf("Swagger API documentation available at http://localhost%s/swagger/", addr)
+	log.Printf("Swagger API documentation available at http://localhost%s/api-documentation (or /swagger/)", addr)
 	if err := app.Listen(addr); err != nil {
 		log.Fatalf("Server stopped: %v", err)
 	}

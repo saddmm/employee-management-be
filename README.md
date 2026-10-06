@@ -43,7 +43,9 @@ Container `ems_mysql` akan berjalan di port `3306`.
 go run cmd/server/main.go
 ```
 Server akan berjalan di `http://localhost:8080`.
-Dokumentasi Swagger dapat diakses di `http://localhost:8080/swagger/`.
+Dokumentasi Swagger API dapat diakses di:
+- `http://localhost:8080/api-documentation`
+- `http://localhost:8080/swagger/`
 
 ---
 

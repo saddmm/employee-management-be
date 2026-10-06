@@ -34,6 +34,10 @@ func SetupRoutes(app *fiber.App, cfg *RouterConfig) {
 
 	// Swagger documentation route
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
+	app.Get("/api-documentation", func(c *fiber.Ctx) error {
+		return c.Redirect("/swagger/index.html", fiber.StatusMovedPermanently)
+	})
+	app.Get("/api-documentation/*", fiberSwagger.WrapHandler)
 
 	// Health check (Public)
 	app.Get("/health", handler.HealthCheck)
