@@ -2,7 +2,7 @@
 
 RESTful API untuk sistem manajemen karyawan modern berkinerja tinggi yang dibangun menggunakan **Go (Golang)**, framework **Fiber v2**, ORM **GORM**, dan database **MySQL**.
 
-Sistem ini dirancang untuk bekerja secara mulus bersama frontend [Employee Management Frontend](../employee-management-fe).
+Sistem ini dirancang untuk bekerja secara mulus bersama frontend [Employee Management Frontend](https://github.com/saddmm/employee-management-fe).
 
 ---
 
