@@ -20,6 +20,15 @@ func NewDepartmentHandler(deptService service.DepartmentService, validate *valid
 	}
 }
 
+// GetAll godoc
+// @Summary List all departments
+// @Description Returns list of all departments
+// @Tags Departments
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} map[string]interface{}
+// @Failure 401 {object} middleware.ErrorResponse
+// @Router /api/departments [get]
 func (h *DepartmentHandler) GetAll(c *fiber.Ctx) error {
 	departments, err := h.deptService.GetAll()
 	if err != nil {
@@ -35,6 +44,17 @@ func (h *DepartmentHandler) GetAll(c *fiber.Ctx) error {
 	})
 }
 
+// GetByID godoc
+// @Summary Get department by ID
+// @Description Returns single department by ID
+// @Tags Departments
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Department ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} middleware.ErrorResponse
+// @Failure 404 {object} middleware.ErrorResponse
+// @Router /api/departments/{id} [get]
 func (h *DepartmentHandler) GetByID(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 32)
 	if err != nil {
@@ -58,6 +78,18 @@ func (h *DepartmentHandler) GetByID(c *fiber.Ctx) error {
 	})
 }
 
+// Create godoc
+// @Summary Create a department
+// @Description Creates a new department (Admin only)
+// @Tags Departments
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body service.CreateDepartmentRequest true "Department info"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} middleware.ErrorResponse
+// @Failure 403 {object} middleware.ErrorResponse
+// @Router /api/departments [post]
 func (h *DepartmentHandler) Create(c *fiber.Ctx) error {
 	var req service.CreateDepartmentRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -87,6 +119,20 @@ func (h *DepartmentHandler) Create(c *fiber.Ctx) error {
 	})
 }
 
+// Update godoc
+// @Summary Update department
+// @Description Updates an existing department (Admin only)
+// @Tags Departments
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Department ID"
+// @Param request body service.UpdateDepartmentRequest true "Department update info"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} middleware.ErrorResponse
+// @Failure 403 {object} middleware.ErrorResponse
+// @Failure 404 {object} middleware.ErrorResponse
+// @Router /api/departments/{id} [put]
 func (h *DepartmentHandler) Update(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 32)
 	if err != nil {
@@ -124,6 +170,18 @@ func (h *DepartmentHandler) Update(c *fiber.Ctx) error {
 	})
 }
 
+// Delete godoc
+// @Summary Delete department
+// @Description Deletes a department by ID (Admin only)
+// @Tags Departments
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Department ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} middleware.ErrorResponse
+// @Failure 403 {object} middleware.ErrorResponse
+// @Failure 404 {object} middleware.ErrorResponse
+// @Router /api/departments/{id} [delete]
 func (h *DepartmentHandler) Delete(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 32)
 	if err != nil {

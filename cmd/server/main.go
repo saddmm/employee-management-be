@@ -14,6 +14,24 @@ import (
 	"github.com/saddam/employee-management-be/internal/service"
 )
 
+// @title Employee Management System API
+// @version 1.0
+// @description RESTful API for Employee Management System built with Go Fiber, GORM, and MySQL.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.email support@example.com
+
+// @license.name MIT
+// @license.url https://opensource.org/licenses/MIT
+
+// @host localhost:8080
+// @BasePath /
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
+
 func main() {
 	cfg := config.LoadConfig()
 
@@ -70,6 +88,7 @@ func main() {
 
 	addr := ":" + cfg.AppPort
 	log.Printf("Server listening on http://localhost%s", addr)
+	log.Printf("Swagger API documentation available at http://localhost%s/swagger/", addr)
 	if err := app.Listen(addr); err != nil {
 		log.Fatalf("Server stopped: %v", err)
 	}

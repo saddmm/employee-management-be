@@ -17,6 +17,20 @@ func NewAuditLogHandler(auditService service.AuditLogService) *AuditLogHandler {
 	}
 }
 
+// GetAll godoc
+// @Summary List audit trail logs
+// @Description Fetches system audit activity history (Admin only)
+// @Tags Audit Logs
+// @Produce json
+// @Security BearerAuth
+// @Param entity query string false "Entity filter (employee / department)"
+// @Param action query string false "Action filter (create / update / delete)"
+// @Param page query int false "Page number" default(1)
+// @Param limit query int false "Page size limit" default(10)
+// @Success 200 {object} map[string]interface{}
+// @Failure 401 {object} middleware.ErrorResponse
+// @Failure 403 {object} middleware.ErrorResponse
+// @Router /api/audit-logs [get]
 func (h *AuditLogHandler) GetAll(c *fiber.Ctx) error {
 	entity := c.Query("entity")
 	action := c.Query("action")

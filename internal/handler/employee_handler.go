@@ -21,6 +21,22 @@ func NewEmployeeHandler(empService service.EmployeeService, validate *validator.
 	}
 }
 
+// GetAll godoc
+// @Summary List employees
+// @Description Searches, filters, sorts and paginates employees list
+// @Tags Employees
+// @Produce json
+// @Security BearerAuth
+// @Param search query string false "Search query by name, email, position"
+// @Param department_id query int false "Department ID filter"
+// @Param status query string false "Status filter (active / inactive)"
+// @Param sort_by query string false "Sort field (name, email, position, status, joined_at, created_at)" default(created_at)
+// @Param sort_order query string false "Sort order (asc / desc)" default(desc)
+// @Param page query int false "Page number" default(1)
+// @Param limit query int false "Page size limit" default(10)
+// @Success 200 {object} map[string]interface{}
+// @Failure 401 {object} middleware.ErrorResponse
+// @Router /api/employees [get]
 func (h *EmployeeHandler) GetAll(c *fiber.Ctx) error {
 	search := c.Query("search")
 	status := c.Query("status")
@@ -57,7 +73,7 @@ func (h *EmployeeHandler) GetAll(c *fiber.Ctx) error {
 	}
 
 	totalPages := int(total) / limit
-	if int(total)%limit != 0 {
+	if limit > 0 && int(total)%limit != 0 {
 		totalPages++
 	}
 
@@ -73,6 +89,17 @@ func (h *EmployeeHandler) GetAll(c *fiber.Ctx) error {
 	})
 }
 
+// GetByID godoc
+// @Summary Get employee by ID
+// @Description Returns employee details by ID
+// @Tags Employees
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Employee ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} middleware.ErrorResponse
+// @Failure 404 {object} middleware.ErrorResponse
+// @Router /api/employees/{id} [get]
 func (h *EmployeeHandler) GetByID(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 32)
 	if err != nil {
@@ -96,6 +123,18 @@ func (h *EmployeeHandler) GetByID(c *fiber.Ctx) error {
 	})
 }
 
+// Create godoc
+// @Summary Create an employee
+// @Description Creates a new employee (Admin only)
+// @Tags Employees
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body service.CreateEmployeeRequest true "Employee creation data"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} middleware.ErrorResponse
+// @Failure 403 {object} middleware.ErrorResponse
+// @Router /api/employees [post]
 func (h *EmployeeHandler) Create(c *fiber.Ctx) error {
 	var req service.CreateEmployeeRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -125,6 +164,20 @@ func (h *EmployeeHandler) Create(c *fiber.Ctx) error {
 	})
 }
 
+// Update godoc
+// @Summary Update an employee
+// @Description Updates an existing employee (Admin only)
+// @Tags Employees
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Employee ID"
+// @Param request body service.UpdateEmployeeRequest true "Employee update data"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} middleware.ErrorResponse
+// @Failure 403 {object} middleware.ErrorResponse
+// @Failure 404 {object} middleware.ErrorResponse
+// @Router /api/employees/{id} [put]
 func (h *EmployeeHandler) Update(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 32)
 	if err != nil {
@@ -162,6 +215,18 @@ func (h *EmployeeHandler) Update(c *fiber.Ctx) error {
 	})
 }
 
+// Delete godoc
+// @Summary Delete an employee
+// @Description Deletes an employee by ID (Admin only)
+// @Tags Employees
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "Employee ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} middleware.ErrorResponse
+// @Failure 403 {object} middleware.ErrorResponse
+// @Failure 404 {object} middleware.ErrorResponse
+// @Router /api/employees/{id} [delete]
 func (h *EmployeeHandler) Delete(c *fiber.Ctx) error {
 	id, err := strconv.ParseUint(c.Params("id"), 10, 32)
 	if err != nil {

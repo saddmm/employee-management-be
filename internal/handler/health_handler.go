@@ -12,6 +12,13 @@ type HealthResponse struct {
 	Service   string    `json:"service"`
 }
 
+// HealthCheck godoc
+// @Summary Check server health status
+// @Description Returns the health status and UTC timestamp of the server
+// @Tags Health
+// @Produce json
+// @Success 200 {object} HealthResponse
+// @Router /health [get]
 func HealthCheck(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(HealthResponse{
 		Status:    "ok",

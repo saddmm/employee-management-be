@@ -5,6 +5,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	fiberSwagger "github.com/swaggo/fiber-swagger"
+	_ "github.com/saddam/employee-management-be/docs"
 	"github.com/saddam/employee-management-be/internal/config"
 	"github.com/saddam/employee-management-be/internal/handler"
 	"github.com/saddam/employee-management-be/internal/middleware"
@@ -12,10 +14,10 @@ import (
 )
 
 type RouterConfig struct {
-	Config      *config.Config
-	AuthHandler *handler.AuthHandler
-	DeptHandler *handler.DepartmentHandler
-	EmpHandler  *handler.EmployeeHandler
+	Config       *config.Config
+	AuthHandler  *handler.AuthHandler
+	DeptHandler  *handler.DepartmentHandler
+	EmpHandler   *handler.EmployeeHandler
 	AuditHandler *handler.AuditLogHandler
 }
 
@@ -29,6 +31,9 @@ func SetupRoutes(app *fiber.App, cfg *RouterConfig) {
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 	}))
 	app.Use(middleware.RateLimiter(cfg.Config))
+
+	// Swagger documentation route
+	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 
 	// Health check (Public)
 	app.Get("/health", handler.HealthCheck)

@@ -19,10 +19,21 @@ func NewAuthHandler(authService service.AuthService, validate *validator.Validat
 }
 
 type LoginRequest struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required,min=6"`
+	Email    string `json:"email" validate:"required,email" example:"admin@example.com"`
+	Password string `json:"password" validate:"required,min=6" example:"admin123"`
 }
 
+// Login godoc
+// @Summary User login
+// @Description Authenticates a user with email and password, returning a JWT token
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body LoginRequest true "Login credentials"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} middleware.ErrorResponse
+// @Failure 401 {object} middleware.ErrorResponse
+// @Router /api/auth/login [post]
 func (h *AuthHandler) Login(c *fiber.Ctx) error {
 	var req LoginRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -51,6 +62,16 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 	})
 }
 
+// GetMe godoc
+// @Summary Get current user profile
+// @Description Returns the profile information of the authenticated user
+// @Tags Auth
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} map[string]interface{}
+// @Failure 401 {object} middleware.ErrorResponse
+// @Failure 404 {object} middleware.ErrorResponse
+// @Router /api/auth/me [get]
 func (h *AuthHandler) GetMe(c *fiber.Ctx) error {
 	userIDVal := c.Locals("user_id")
 	if userIDVal == nil {

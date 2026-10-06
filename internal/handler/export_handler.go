@@ -11,6 +11,21 @@ import (
 	"github.com/saddam/employee-management-be/internal/repository"
 )
 
+// ExportCSV godoc
+// @Summary Export employees to CSV
+// @Description Generates and streams a CSV file of employee records
+// @Tags Employees
+// @Produce text/csv
+// @Security BearerAuth
+// @Param search query string false "Search query"
+// @Param department_id query int false "Department ID filter"
+// @Param status query string false "Status filter"
+// @Param sort_by query string false "Sort by field" default(name)
+// @Param sort_order query string false "Sort order" default(asc)
+// @Success 200 {file} file "CSV File"
+// @Failure 401 {object} middleware.ErrorResponse
+// @Failure 500 {object} middleware.ErrorResponse
+// @Router /api/employees/export/csv [get]
 func (h *EmployeeHandler) ExportCSV(c *fiber.Ctx) error {
 	search := c.Query("search")
 	status := c.Query("status")
