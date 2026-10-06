@@ -14,7 +14,7 @@ Sistem ini dirancang untuk bekerja secara mulus bersama frontend [Employee Manag
 | 🚀 **Live Demo Backend API** | [http://employee-management-be-production-a8fc.up.railway.app/](http://employee-management-be-production-a8fc.up.railway.app/) | Base URL backend API |
 | 📖 **Live Swagger UI** | [http://employee-management-be-production-a8fc.up.railway.app/api-documentation/](http://employee-management-be-production-a8fc.up.railway.app/swagger/) | Dokumentasi OpenAPI / Swagger interaktif |
 | 🩺 **Health Check** | [http://employee-management-be-production-a8fc.up.railway.app/health](http://employee-management-be-production-a8fc.up.railway.app/health) | Status monitoring server |
-| 📂 **Repositori Frontend** | [../employee-management-fe](../employee-management-fe) | Repositori antarmuka React + Vite |
+| 📂 **Repositori Frontend** | [https://github.com/saddmm/employee-management-fe](https://github.com/saddmm/employee-management-fe) | Repositori antarmuka React + Vite |
 
 ---
 
