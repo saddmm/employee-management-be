@@ -18,9 +18,53 @@ func NewAuthHandler(authService service.AuthService, validate *validator.Validat
 	}
 }
 
+type RegisterRequest struct {
+	Name     string `json:"name" validate:"required,min=2,max=100" example:"John Doe"`
+	Email    string `json:"email" validate:"required,email,max=150" example:"user@example.com"`
+	Password string `json:"password" validate:"required,min=6" example:"secret123"`
+}
+
 type LoginRequest struct {
 	Email    string `json:"email" validate:"required,email" example:"admin@example.com"`
 	Password string `json:"password" validate:"required,min=6" example:"admin123"`
+}
+
+// Register godoc
+// @Summary User registration
+// @Description Registers a new user account with role viewer/user
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body RegisterRequest true "Registration credentials"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} middleware.ErrorResponse
+// @Router /api/auth/register [post]
+func (h *AuthHandler) Register(c *fiber.Ctx) error {
+	var req RegisterRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": "Invalid request body",
+		})
+	}
+
+	if err := h.validator.Struct(&req); err != nil {
+		return err
+	}
+
+	resp, err := h.authService.Register(req.Name, req.Email, req.Password)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+		"success": true,
+		"message": "User registered successfully",
+		"data":    resp,
+	})
 }
 
 // Login godoc

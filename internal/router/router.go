@@ -47,6 +47,7 @@ func SetupRoutes(app *fiber.App, cfg *RouterConfig) {
 
 	// Auth Routes
 	auth := api.Group("/auth")
+	auth.Post("/register", cfg.AuthHandler.Register)
 	auth.Post("/login", cfg.AuthHandler.Login)
 	auth.Get("/me", middleware.JWTProtected(cfg.Config), cfg.AuthHandler.GetMe)
 
