@@ -26,15 +26,20 @@ func JWTProtected(cfg *config.Config) fiber.Handler {
 			})
 		}
 
-		parts := strings.Split(authHeader, " ")
-		if len(parts) != 2 || parts[0] != "Bearer" {
+		parts := strings.SplitN(authHeader, " ", 2)
+		var tokenString string
+		if len(parts) == 2 && strings.EqualFold(parts[0], "Bearer") {
+			tokenString = strings.TrimSpace(parts[1])
+		} else if len(parts) == 1 {
+			// Allow raw token without "Bearer " prefix (useful for Swagger UI / API clients)
+			tokenString = strings.TrimSpace(parts[0])
+		} else {
 			return c.Status(fiber.StatusUnauthorized).JSON(ErrorResponse{
 				Success: false,
 				Message: "Invalid authorization header format. Expected 'Bearer <token>'",
 			})
 		}
 
-		tokenString := parts[1]
 		token, err := jwt.ParseWithClaims(tokenString, &JWTClaims{}, func(t *jwt.Token) (interface{}, error) {
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fiber.NewError(fiber.StatusUnauthorized, "Invalid signing method")

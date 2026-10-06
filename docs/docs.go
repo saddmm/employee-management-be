@@ -984,7 +984,7 @@ const docTemplate = `{
     },
     "securityDefinitions": {
         "BearerAuth": {
-            "description": "Type \"Bearer\" followed by a space and JWT token.",
+            "description": "Type \"Bearer\" followed by a space and JWT token (e.g. \"Bearer eyJhbGciOi...\"). Even if you paste only the token without \"Bearer \", it is automatically supported.",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"

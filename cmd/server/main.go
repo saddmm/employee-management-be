@@ -30,7 +30,7 @@ import (
 // @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authorization
-// @description Type "Bearer" followed by a space and JWT token.
+// @description Type "Bearer" followed by a space and JWT token (e.g. "Bearer eyJhbGciOi..."). Even if you paste only the token without "Bearer ", it is automatically supported.
 
 func main() {
 	cfg := config.LoadConfig()
